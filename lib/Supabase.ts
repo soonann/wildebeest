@@ -66,7 +66,7 @@ export const useStore = (props: any) => {
     useEffect(() => {
         if (newSingleAttempt) {
             console.log(newSingleAttempt)
-            fetchSingleAttempt(newSingleAttempt.id, setAttempts)
+            fetchSingleAttempt(newSingleAttempt.id, attempts, setAttempts)
         }
     }, [newSingleAttempt])
 
@@ -90,10 +90,11 @@ export const fetchAllAttempts = async (setState?: any) => {
 
 export const fetchSingleAttempt = async (id: number, initialState?: any, setState?: any) => {
     try {
-        let { data } = await supabase.from('quiz_attempt').select(`quiz_entry(\*), users(\*)`).eq('id', id).order('inserted_at', { ascending: false })
+        let { data } = await supabase.from('quiz_attempt').select(`id, created_by, inserted_at, quiz_entry(\*), users(\*)`).eq('id', id).order('inserted_at', { ascending: false }).single()
+
         if (setState) {
-            initialState.concat(data)
-            setState(data)
+            const result = [data].concat(initialState)
+            setState(result)
         }
         return data
     }
