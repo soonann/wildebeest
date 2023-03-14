@@ -165,8 +165,7 @@ export const signUpAndLoginAnonymously = async () => {
             email: `${randomValue}@soonann.dev`,
             password: process.env.NEXT_PUBLIC_ANON_ACCOUNT_PASSWORD ?? '',
         })
-
-        supabase.auth.signInWithPassword({
+        await supabase.auth.signInWithPassword({
             email: `${randomValue}@soonann.dev`,
             password: process.env.NEXT_PUBLIC_ANON_ACCOUNT_PASSWORD ?? ''
         })
