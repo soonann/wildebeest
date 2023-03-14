@@ -11,6 +11,7 @@ type QuizAttempt = Database['public']['Tables']['quiz_attempt']['Row']
 type QuizEntry = Database['public']['Tables']['quiz_entry']['Row']
 type User = Database['public']['Tables']['users']['Row']
 type PartialQuizAttemptNested = ({ users: User, quiz_entry: QuizEntry[] })
+
 export type QuizAttemptNested = ({ users: User, quiz_entry: QuizEntry[] } & QuizAttempt)
 
 export const useStore = (props: any) => {
