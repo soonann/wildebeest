@@ -1,20 +1,19 @@
+import { QuizAttemptNested } from "@/lib/Supabase";
 
-const UserCard = ({ results }: any) => {
+const AttemptCard = (props: { attempts: QuizAttemptNested }) => {
 
     return (
-
-        <div className="bg-white rounded-md drop-shadow-lg col-span-1 p-10 justify-center">
+        <div className="bg-white rounded-md drop-shadow-lg col-span-1 p-10 justify-center" >
             <div className="text-lg font-semibold">
-                Soon Ann
+                {props.attempts.users.username}
             </div>
             <ul className="text-sm ">
-                <li> Process 1</li>
-                <li> Process 2</li>
-                <li> Process 3</li>
-                <li> Process 4</li>
+                {props.attempts.quiz_entry.map(x => <li key={`${x.sequence}_${x.attempt_id}`}>{x.process}</li>)}
             </ul>
         </div>
     )
+
+
 };
 
-export default UserCard;
+export default AttemptCard;

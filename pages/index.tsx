@@ -1,9 +1,8 @@
-import UserCard from '@/components/UserCard';
-import { supabase } from '@/lib/Store'
-import { useState } from 'react'
+import AttemptCard from '@/components/UserCard';
+import { useStore } from '@/lib/Supabase';
 
 const Home = () => {
-    const fake = [1, 1, 1, 1, 1];
+    const { attempts } = useStore({})
 
     return (
         <div className='max-w-screen-xl px-4 mx-auto'>
@@ -12,11 +11,7 @@ const Home = () => {
             </div>
 
             <div className='grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-1 gap-4'>
-
-                <UserCard></UserCard>
-                <UserCard></UserCard>
-                <UserCard></UserCard>
-
+                {attempts.map(x => { return <AttemptCard attempts={x} key={x.users.id}></AttemptCard> })}
             </div>
         </div>
 
