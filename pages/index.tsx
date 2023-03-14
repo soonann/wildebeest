@@ -11,7 +11,7 @@ const Home = () => {
             </div>
 
             <div className='grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-1 gap-4'>
-                {attempts.map(x => { return <AttemptCard attempts={x} key={x.users.id}></AttemptCard> })}
+                {attempts.map(x => { return <AttemptCard attempts={x} key={`${x.created_by}_${x.id}`}></AttemptCard> })}
             </div>
         </div>
 

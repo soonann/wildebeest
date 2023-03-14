@@ -8,7 +8,7 @@ const AttemptCard = (props: { attempts: QuizAttemptNested }) => {
                 {props.attempts.users.username}
             </div>
             <ul className="text-sm ">
-                {props.attempts.quiz_entry.map(x => <li key={`${x.sequence}_${x.attempt_id}`}>{x.process}</li>)}
+                {props.attempts.quiz_entry.map(x => <li key={`${x.attempt_id}_${x.sequence}`}>{x.process}</li>)}
             </ul>
         </div>
     )
