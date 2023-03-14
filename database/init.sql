@@ -7,7 +7,7 @@ create table public.users (
   status      user_status default 'OFFLINE'::public.user_status
 );
 alter table public.users enable row level security; 
-create policy "Allow everyone to read" on public.users for select using (auth.role() = 'anon');
+create policy "Allow everyone to read" on public.users for select using (true);
 
 -- QUIZ_ATTEMPTS
 create table public.quiz_attempt (
@@ -16,7 +16,7 @@ create table public.quiz_attempt (
   inserted_at   timestamp with time zone default timezone('utc'::text, now()) not null
 );
 alter table public.quiz_attempt enable row level security;
-create policy "Allow everyone to read" on public.quiz_attempt for select using (auth.role() = 'anon');
+create policy "Allow everyone to read" on public.quiz_attempt for select using (true);
 
 -- QUIZ_ENTRIES
 create table public.quiz_entry (
@@ -27,4 +27,15 @@ create table public.quiz_entry (
   CONSTRAINT quiz_attempt_entry_fkey FOREIGN KEY (attempt_id) REFERENCES public.quiz_attempt(id)
 );
 alter table public.quiz_entry enable row level security;
-create policy "Allow everyone to read" on public.quiz_entry for select using (auth.role() = 'anon');
+create policy "Allow everyone to read" on public.quiz_entry for select using (true);
+
+begin;
+  -- remove the supabase_realtime publication
+  drop publication if exists supabase_realtime;
+
+  -- re-create the supabase_realtime publication with no tables
+  create publication supabase_realtime;
+commit;
+
+-- add a table to the publication
+alter publication supabase_realtime add table public.quiz_attempt;

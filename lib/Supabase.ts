@@ -102,3 +102,78 @@ export const fetchSingleAttempt = async (id: number, initialState?: any, setStat
 }
 
 
+type QuizAttemptInsert = Database['public']['Tables']['quiz_attempt']['Insert']
+type QuizEntryInsert = Database['public']['Tables']['quiz_entry']['Insert']
+
+// creates a new attempt with the given options
+export const createAttemptWithEntries = async (auth_id: string, quiz_entry: QuizEntry[]) => {
+    try {
+        const handleQuizAttemptInsertAsync = async () => {
+            try {
+
+                const { data, error } = await supabase.from('quiz_attempt').insert<QuizAttemptInsert>({ created_by: auth_id }).select().single<QuizAttemptInsert>()
+                const quiz_attempt_insert = data;
+                if (data && data.id) {
+                    // set attempt id to the attempt one's
+                    const attempt_id = data.id
+                    quiz_entry = quiz_entry.map(x => {
+                        x.attempt_id = attempt_id;
+                        return x
+                    })
+                }
+            }
+            catch (error) {
+                console.log('error', error)
+            }
+
+        }
+        const handleQuizEntryInsertAsync = async () => {
+            try {
+                const { data, error } = await supabase.from('quiz_entry').insert<QuizEntry[]>(quiz_entry)
+            }
+            catch (error) {
+                console.log('error', error)
+            }
+        }
+
+        await handleQuizAttemptInsertAsync()
+        await handleQuizEntryInsertAsync()
+        return true;
+
+    }
+    catch (error) {
+        console.log('error', error)
+    }
+}
+
+type UserInsert = Database['public']['Tables']['users']['Insert']
+
+export const createUser = async (auth_id: string, username: string) => {
+    try {
+        const { data, error } = await supabase.from('users').insert<UserInsert>({ id: auth_id, username: username }).select().single<UserInsert>()
+        return data
+    }
+    catch (error) {
+        console.log('error', error)
+    }
+}
+
+export const signUpAndLoginAnonymously = async () => {
+    const randomValue = Date.now().valueOf().toString()
+    try {
+        const { data, error } = await supabase.auth.signUp({
+            email: `${randomValue}@soonann.dev`,
+            password: process.env.NEXT_PUBLIC_ANON_ACCOUNT_PASSWORD ?? '',
+        })
+
+        supabase.auth.signInWithPassword({
+            email: `${randomValue}@soonann.dev`,
+            password: process.env.NEXT_PUBLIC_ANON_ACCOUNT_PASSWORD ?? ''
+        })
+        return data;
+    }
+    catch (error) {
+        console.log('error', error)
+    }
+}
+
