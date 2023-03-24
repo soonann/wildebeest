@@ -1,7 +1,7 @@
 import { QuizAttemptNested } from "@/lib/Supabase";
 function timeSince(date: Date) {
 
-    var seconds = Math.floor((new Date() - date) / 1000);
+    var seconds = Math.floor((new Date().valueOf() - date.valueOf()) / 1000);
 
     var interval = seconds / 31536000;
 
