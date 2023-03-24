@@ -1,3 +1,5 @@
+const { url } = require('inspector');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
@@ -7,8 +9,20 @@ module.exports = {
         "./components/**/*.{js,ts,jsx,tsx}",
     ],
     theme: {
-        extend: {},
+        extend: {
+            colors: {
+                'primary': '#7A46E8',
+                'secondary': '#EDCA5B',
+                'quiz-bg': '#282828',
+                //'green': '#13ce66',
+                //'gray-dark': '#273444',
+                //'gray': '#8492a6',
+                //'gray-light': '#d3dce6',
+            },
+        },
+
     },
     plugins: [],
 }
+
 

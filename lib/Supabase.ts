@@ -78,6 +78,7 @@ export const useStore = (props: any) => {
 export const fetchAllAttempts = async (setState?: any) => {
     try {
         let { data } = await supabase.from('quiz_attempt').select(`id, created_by, inserted_at, quiz_entry(\*), users(\*)`).order('inserted_at', { ascending: false })
+        console.log(data)
         if (setState) {
             setState(data)
         }
