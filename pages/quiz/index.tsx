@@ -31,7 +31,7 @@ const QuizPage = () => {
         if (username && username.trim() != '' && designField && designField.trim() != '') {
             // if valid, start quiz
             console.log(username)
-            handleNewAttempt(username)
+            handleNewAttempt(username, designField)
             return;
         }
         setSubmitted(false)
@@ -44,7 +44,7 @@ const QuizPage = () => {
         setShowQuizAttempt(true);
     }
 
-    const handleNewAttempt = async (username: string,) => {
+    const handleNewAttempt = async (username: string, design_field: string) => {
         // sign up an anon user 
         const anon = await signUpAndLoginAnonymously()
         if (!anon || !anon.user) {
@@ -52,7 +52,7 @@ const QuizPage = () => {
         }
 
         // assign username to created anon user
-        let user_success = await createUser(anon.user.id, username)
+        let user_success = await createUser(anon.user.id, username, design_field)
         if (!user_success) {
             return;
         }

@@ -172,9 +172,9 @@ export const createAttemptWithEntries = async (auth_id: string, quiz_entry: Quiz
 
 type UserInsert = Database['public']['Tables']['users']['Insert']
 
-export const createUser = async (auth_id: string, username: string) => {
+export const createUser = async (auth_id: string, username: string, design_field: string) => {
     try {
-        const { data, error } = await supabase.from('users').insert<UserInsert>({ id: auth_id, username: username }).select().single<UserInsert>()
+        const { data, error } = await supabase.from('users').insert<UserInsert>({ id: auth_id, username: username, design_field: design_field }).select().single<UserInsert>()
         return data
     }
     catch (error) {
