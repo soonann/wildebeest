@@ -97,8 +97,7 @@ const QuizPage = () => {
             setSubmitted(false)
             return;
         }
-
-        router.push('/')
+        router.push(`/results/${anon.user.id}`)
     }
 
 

@@ -63,13 +63,13 @@ const QuizAttempt = (props: { handleSubmit: (selectedItems: string[]) => void; }
                     </div>
                 </div> : null}
 
-            <div className="rounded-b-lg bg-[url(/header-background.png)] bg-cover h-20 bg-center mb-3 grid grid-cols-8 justify-start content-center px-5 ">
+            <div className="fixed top-0 w-full z-20 rounded-b-lg bg-[url(/header-background.png)] bg-cover h-20 bg-center mb-3 grid grid-cols-8 justify-start content-center px-5 ">
                 <div className="flex col-span-7">
                     {
                         selectedItems.slice(0, limit + 1).map((x, i) =>
                             i == limit ? <div className="w-12 h-12 drop-shadow-md flex place-content-center " key={x}> <span className="m-auto text-white ">+{selectedItems.length - limit}</span></div> :
                                 images.get(x) == null ? <div className="w-12 h-12 drop-shadow-md rounded-full flex place-content-center bg-[url(/background.png)] bg-cover " key={x}>
-                                    <span className="m-auto text-white text-[0.5rem] overflow-hidden">{x}</span></div> : <img width={10} height={10} className="w-12 h-12 drop-shadow-md" key={x} src={'/buttons/' + images.get(x)?.image} />
+                                    <span className="m-auto text-white text-[0.5rem] overflow-hidden">{x}</span></div> : <img width={10} height={10} className="w-12 h-12 drop-shadow-md -rotate-6" key={x} src={'/buttons/' + images.get(x)?.image} />
                         )
                     }
                 </div>
@@ -86,7 +86,7 @@ const QuizAttempt = (props: { handleSubmit: (selectedItems: string[]) => void; }
             </div>
 
 
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-2 pb-5 px-5">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-2 pb-5 mt-14 px-5">
                 <div className="flex">
                     <span className="place-self-center text-white p-4 text-center">
                         Select your process, from start to finish
@@ -98,7 +98,7 @@ const QuizAttempt = (props: { handleSubmit: (selectedItems: string[]) => void; }
                     Array.from(images).map(([key, value]) => (
                         <div className="even:top-20 relative" key={key}>
                             <button onClick={(e) => handleClick(e, key)}>
-                                <img src={`/buttons/${value.image}`} />
+                                <img className={selectedItems.includes(key) ? "grayscale" : ""} src={`/buttons/${value.image}`} />
                             </button>
                         </div>
                     ))

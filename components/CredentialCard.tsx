@@ -1,7 +1,7 @@
 
 const CredentialCard = (props: { username: any, setUsername: any, designField: any, setDesignField: any, handleSubmit: any, submitted: any, playButtonText: any, }) => {
     return (
-        <div className="grid grid-cols-5 p-5 space-y-6 mb-5">
+        <div className="grid grid-cols-5 p-5 px-10 space-y-6 mb-5">
             <div className="h-52"></div>
 
             <div className=" col-span-5 md:col-span-5 lg:col-span-3  text-black p-5 rounded-lg drop-shadow-[0_0px_10px_rgba(153,109,247,1)]  bg-[url(/card-background.png)] bg-center bg-cover ">
