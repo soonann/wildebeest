@@ -17,6 +17,7 @@ export type QuizAttemptNested = ({ users: User, quiz_entry: QuizEntry[] } & Quiz
 export const useStore = (props: any) => {
     // main states
     const [attempts, setAttempts] = useState<QuizAttemptNested[]>([]);
+    const [collations, setCollations] = useState<Map<number, number>>(new Map<number, number>());
 
     // intial load
     const [newMultiAttempt, handleNewMultiAttempt] = useState<QuizAttemptNested[]>();
@@ -59,6 +60,7 @@ export const useStore = (props: any) => {
         if (newMultiAttempt) {
             console.log(newMultiAttempt)
             setAttempts(newMultiAttempt)
+
         }
     }, [newMultiAttempt])
 
@@ -67,11 +69,30 @@ export const useStore = (props: any) => {
         if (newSingleAttempt) {
             console.log(newSingleAttempt)
             fetchSingleAttempt(newSingleAttempt.id, attempts, setAttempts)
+
         }
     }, [newSingleAttempt])
 
+    // update collation amount
+    useEffect(() => {
+
+        console.log("called", attempts)
+        let collation = new Map<number, number>();
+        for (let i = 0; i < attempts.length; i++) {
+            const steps = attempts[i].quiz_entry.length;
+            let curr = collation.get(steps);
+            if (curr == null) {
+                curr = 0
+            }
+            collation.set(steps, curr + 1)
+        }
+        setCollations(collation)
+
+    }, [attempts])
+
     return {
-        attempts
+        attempts,
+        collations
     }
 }
 

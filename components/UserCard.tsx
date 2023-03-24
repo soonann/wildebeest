@@ -30,7 +30,7 @@ var aDay = 24 * 60 * 60 * 1000;
 console.log(timeSince(new Date(Date.now() - aDay)));
 console.log(timeSince(new Date(Date.now() - aDay * 2)));
 
-const AttemptCard = (props: { attempts: QuizAttemptNested }) => {
+const AttemptCard = (props: { attempts: QuizAttemptNested, percentageOfParticipants: string }) => {
 
     let daysAgo = timeSince(new Date(props.attempts.inserted_at))
 
@@ -69,7 +69,7 @@ const AttemptCard = (props: { attempts: QuizAttemptNested }) => {
             </div >
 
             <div className="text-primary text-sm">
-                <span className="font-bold ">{75}%</span> of the participants have <span className="font-bold ">{props.attempts.quiz_entry.length}</span> steps in their design process.
+                <span className="font-bold ">{props.percentageOfParticipants}%</span> of the participants have <span className="font-bold ">{props.attempts.quiz_entry.length}</span> steps in their design process.
             </div>
         </div >
     )
