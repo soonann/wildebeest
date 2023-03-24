@@ -1,10 +1,41 @@
 import { QuizAttemptNested } from "@/lib/Supabase";
+function timeSince(date) {
+
+    var seconds = Math.floor((new Date() - date) / 1000);
+
+    var interval = seconds / 31536000;
+
+    if (interval > 1) {
+        return Math.floor(interval) + " years";
+    }
+    interval = seconds / 2592000;
+    if (interval > 1) {
+        return Math.floor(interval) + " months";
+    }
+    interval = seconds / 86400;
+    if (interval > 1) {
+        return Math.floor(interval) + " days";
+    }
+    interval = seconds / 3600;
+    if (interval > 1) {
+        return Math.floor(interval) + " hours";
+    }
+    interval = seconds / 60;
+    if (interval > 1) {
+        return Math.floor(interval) + " minutes";
+    }
+    return Math.floor(seconds) + " seconds";
+}
+var aDay = 24 * 60 * 60 * 1000;
+console.log(timeSince(new Date(Date.now() - aDay)));
+console.log(timeSince(new Date(Date.now() - aDay * 2)));
 
 const AttemptCard = (props: { attempts: QuizAttemptNested }) => {
 
-    let daysAgo = "2 hours"
+    let daysAgo = timeSince(new Date(props.attempts.inserted_at))
+
     return (
-        <div className="bg-white rounded-md drop-shadow-lg col-span-1 p-10 justify-center" >
+        <div className="bg-white rounded-md drop-shadow-lg col-span-1 px-8 py-8 justify-center h-min" >
             <div className="text-primary text-xs text-right font-normal">{daysAgo} ago</div>
             <div className="text-primary text-4xl font-extrabold">
                 {props.attempts.users.username}
@@ -38,7 +69,7 @@ const AttemptCard = (props: { attempts: QuizAttemptNested }) => {
             </div >
 
             <div className="text-primary text-sm">
-                <span className="font-bold ">{75}%</span> of the participants have <span className="font-bold ">{5}</span> steps in their design process.
+                <span className="font-bold ">{75}%</span> of the participants have <span className="font-bold ">{props.attempts.quiz_entry.length}</span> steps in their design process.
             </div>
         </div >
     )

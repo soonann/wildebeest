@@ -14,11 +14,16 @@ module.exports = {
                 'primary': '#7A46E8',
                 'secondary': '#EDCA5B',
                 'quiz-bg': '#282828',
-                //'green': '#13ce66',
-                //'gray-dark': '#273444',
-                //'gray': '#8492a6',
-                //'gray-light': '#d3dce6',
             },
+            animation: {
+                tilt: 'tilt 2s forwards',
+            },
+            keyframes: {
+                tilt: {
+                    '0%': { transform: 'rotate(0deg)' },
+                    '100%': { transform: 'rotate(-5.13deg)' },
+                }
+            }
         },
 
     },

@@ -7,7 +7,7 @@ const HomePage = () => {
     const router = useRouter()
 
     return (
-        <div className="h-screen bg-[url(/background.png)]">
+        <div className="p-2 pb-10 bg-[url(/background.png)]">
 
             <div className=' grid gap-2 px-4 mx-auto max-w-screen-xl'>
                 <div className='grid grid-cols-3 drop-shadow-md py-5 text-white font-bold text-center text-gray-900 content-between'>
