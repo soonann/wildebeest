@@ -7,15 +7,14 @@ const HomePage = () => {
     const router = useRouter()
 
     return (
-        <div className="p-2 pb-10 bg-[url(/background.png)]">
+        <div className="p-2 pb-10 bg-[url(/background.png)] bg-cover ">
 
-            <div className=' grid gap-2 px-4 mx-auto max-w-screen-xl'>
-                <div className='grid grid-cols-3 drop-shadow-md py-5 text-white font-bold text-center text-gray-900 content-between'>
-                    <div className='text-4xl col-span-2 text-left'>
+            <div className=' grid gap-2 px-4 mx-auto '>
+                <div className='grid lg:grid-cols-4 sm:col-span-3 drop-shadow-md py-5 text-white font-bold text-center content-between'>
+                    <div className='text-4xl col-span-3 text-left'>
                         Every designer has their unique design process. What is yours?
                     </div>
-                    <div className='text-left span-1 px-5 cursor-pointer hover:underline text-red-900'>
-                        <a onClick={() => router.push('/quiz')}>IM A QR CODE :)</a>
+                    <div className='text-left col-span-1 w-[9rem] h-[9rem] hover:underline bg-center bg-cover bg-no-repeat bg-[url(/wildebeest-vercel-qr.jpg)]'>
                     </div>
                 </div>
 

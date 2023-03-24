@@ -1,6 +1,6 @@
 const DesignBriefCard = (props: { startGame: any }) => {
-    return (<div className="grid grid-cols-5 p-5 space-y-6 my-5">
-        <div></div>
+    return (<div className="animate-tilt grid grid-cols-5 p-5 space-y-6 mb-5">
+        <div className="h-52"></div>
 
         <div className=" col-span-5 md:col-span-5 lg:col-span-3  text-black p-5 rounded-lg  bg-[url(/card-background.png)] bg-center bg-cover drop-shadow-[0_0px_10px_rgba(153,109,247,1)] ">
 

@@ -1,22 +1,26 @@
 import CredentialCard from "@/components/CredentialCard"
 import DesignBriefCard from "@/components/DesignBriefCard"
 import QuizAttempt from "@/components/QuizAttempt"
+import { images } from "@/constants/Buttons"
+import { Database } from "@/lib/database.types"
 import { createAttemptWithEntries, createUser, signUpAndLoginAnonymously } from "@/lib/Supabase"
 import { useRouter } from "next/router"
 import { useState } from "react"
 
 
+type QuizEntry = Database['public']['Tables']['quiz_entry']['Row']
 const QuizPage = () => {
     const [username, setUsername] = useState('')
     const [designField, setDesignField] = useState('')
     const [submitted, setSubmitted] = useState(false)
     const [playButtonText, setPlayButtonText] = useState('Play')
 
+    const [showCredentials, setShowCredentials] = useState(true)
     const [showDesignBrief, setShowDesignBrief] = useState(false)
-    const [showQuizAttempt, setShowQuizAttempt] = useState(true)
-    const [showQuizResult, setShowQuizResult] = useState(true)
+    const [showQuizAttempt, setShowQuizAttempt] = useState(false)
+    const [showQuizResult, setShowQuizResult] = useState(false)
 
-    const [supabaseUser, setSupabaseUser] = useState(null)
+    const [supabaseUser, setSupabaseUser] = useState<any>(null)
     const router = useRouter()
 
     const handleSubmit = () => {
@@ -35,6 +39,11 @@ const QuizPage = () => {
 
     }
 
+    const handleStartGame = () => {
+        setShowDesignBrief(false);
+        setShowQuizAttempt(true);
+    }
+
     const handleNewAttempt = async (username: string,) => {
         // sign up an anon user 
         const anon = await signUpAndLoginAnonymously()
@@ -48,38 +57,56 @@ const QuizPage = () => {
             return;
         }
         else {
-            setShowDesignBrief(true);
+            setSupabaseUser(anon)
+            setShowDesignBrief(true)
+            setShowCredentials(false)
         }
     }
 
-    const submitAnswers = async (anon: any) => {
+    const handleQuizSubmit = async (results: string[]) => {
+        // must chose at least 1
+        if (results.length < 1) {
+
+        }
+        else {
+            if (supabaseUser != null) {
+                let resultsDbFormatted = [
+                ]
+                for (let i = 0; i < results.length; i++) {
+                    let val = images.get(results[i])
+                    if (val == null) {
+                        resultsDbFormatted.push({ attempt_id: 0, sequence: i, process: results[i] })
+                    }
+                    else {
+                        resultsDbFormatted.push({ attempt_id: 0, sequence: i, process: val.text })
+                    }
+                }
+                await submitAnswers(supabaseUser, resultsDbFormatted)
+
+            }
+        }
+
+    }
+
+    const submitAnswers = async (anon: any, resultsDbFormatted: QuizEntry[]) => {
 
         // create attempt and entries
-        let attempt_success = await createAttemptWithEntries(anon.user.id, [
-            { attempt_id: 0, sequence: 0, process: 'process 1' },
-            { attempt_id: 0, sequence: 1, process: 'process 2' },
-            { attempt_id: 0, sequence: 2, process: 'process 2' },
-            { attempt_id: 0, sequence: 3, process: 'process 2' },
-            { attempt_id: 0, sequence: 4, process: 'process 2' },
-            { attempt_id: 0, sequence: 5, process: 'process 2' },
-            { attempt_id: 0, sequence: 6, process: 'process 3' },
-            { attempt_id: 0, sequence: 7, process: 'process 4' },
-        ])
+        let attempt_success = await createAttemptWithEntries(anon.user.id, resultsDbFormatted)
         if (!attempt_success) {
             console.log("failed")
-            setPlayButtonText("Play")
             setSubmitted(false)
             return;
         }
 
-
         router.push('/')
     }
 
+
     return (
-        <div className='w-full bg-quiz-bg '>
+        <div className='w-full bg-quiz-bg'>
             {
-                showDesignBrief ?
+                showCredentials ?
+
                     <CredentialCard
                         username={username}
                         setUsername={setUsername}
@@ -87,14 +114,13 @@ const QuizPage = () => {
                         setDesignField={setDesignField}
                         handleSubmit={handleSubmit}
                         submitted={submitted}
-                        playButtonText={playButtonText} />
-                    : null
+                        playButtonText={playButtonText} /> : null
             }
             {
-                showDesignBrief ? < DesignBriefCard startGame={false} /> : null
+                showDesignBrief ? < DesignBriefCard startGame={handleStartGame} /> : null
             }
             {
-                showQuizAttempt ? <QuizAttempt /> : null
+                showQuizAttempt ? <QuizAttempt handleSubmit={handleQuizSubmit} /> : null
             }
 
         </div>

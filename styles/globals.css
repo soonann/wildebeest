@@ -4,6 +4,18 @@
 
 @layer base {
   html {
+    height: 100% !important;
     font-family: 'Montserrat', sans-serif;
+    padding:0 !important;
+    margin:0 !important;
+  }
+  body {
+      height: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+
+  }
+  #__next{
+      height: 100%
   }
 }

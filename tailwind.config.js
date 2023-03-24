@@ -22,6 +22,9 @@ module.exports = {
                 tilt: {
                     '0%': { transform: 'rotate(0deg)' },
                     '100%': { transform: 'rotate(-5.13deg)' },
+                },
+                expand: {
+                    '0%': {}
                 }
             }
         },
